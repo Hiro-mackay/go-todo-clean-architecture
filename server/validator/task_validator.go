@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"go-react-todo/models"
+	"go-react-todo/server/models"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 )

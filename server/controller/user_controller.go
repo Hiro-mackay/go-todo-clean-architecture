@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"go-react-todo/models"
-	"go-react-todo/usecase"
+	"go-react-todo/server/models"
+	"go-react-todo/server/usecase"
 	"net/http"
 	"os"
 	"time"

@@ -1,20 +1,20 @@
 package main
 
 import (
-	"go-react-todo/controller"
-	"go-react-todo/db"
-	"go-react-todo/repository"
-	"go-react-todo/router"
-	"go-react-todo/usecase"
-	"go-react-todo/validator"
+	"go-react-todo/server/controller"
+	"go-react-todo/server/db"
+	"go-react-todo/server/repository"
+	"go-react-todo/server/router"
+	"go-react-todo/server/usecase"
+	"go-react-todo/server/validator"
 )
 
 func main() {
 	db := db.NewDB()
 
-	userValidatotr := validator.NewUserValidator()
+	userValidator := validator.NewUserValidator()
 	userRepository := repository.NewUserRepository(db)
-	userUsecase := usecase.NewUserUsecase(userRepository, userValidatotr)
+	userUsecase := usecase.NewUserUsecase(userRepository, userValidator)
 	userController := controller.NewUserController(userUsecase)
 
 	taskValidator := validator.NewTaskValidator()

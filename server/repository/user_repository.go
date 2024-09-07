@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"go-react-todo/models"
+	"go-react-todo/server/models"
 
 	"gorm.io/gorm"
 )

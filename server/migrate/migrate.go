@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"go-react-todo/db"
-	"go-react-todo/models"
+	"go-react-todo/server/db"
+	"go-react-todo/server/models"
 )
 
 func main() {

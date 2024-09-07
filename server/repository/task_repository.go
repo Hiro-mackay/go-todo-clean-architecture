@@ -2,7 +2,7 @@ package repository
 
 import (
 	"fmt"
-	"go-react-todo/models"
+	"go-react-todo/server/models"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

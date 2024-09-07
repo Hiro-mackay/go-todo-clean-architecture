@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"go-react-todo/models"
-	"go-react-todo/repository"
-	"go-react-todo/validator"
+	"go-react-todo/server/models"
+	"go-react-todo/server/repository"
+	"go-react-todo/server/validator"
 )
 
 type ITaskUsecase interface {
