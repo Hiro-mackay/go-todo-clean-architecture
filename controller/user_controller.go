@@ -61,7 +61,6 @@ func (c *UserController) LogIn(ctx echo.Context) error {
 	ctx.SetCookie(cookie)
 	return ctx.NoContent(http.StatusOK)
 
-	return nil
 }
 func (c *UserController) LogOut(ctx echo.Context) error {
 	cookie := new(http.Cookie)
