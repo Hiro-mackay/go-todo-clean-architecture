@@ -3,6 +3,7 @@ package usecase
 import (
 	"go-react-todo/models"
 	"go-react-todo/repository"
+	"go-react-todo/validator"
 	"os"
 	"time"
 
@@ -17,13 +18,18 @@ type IUserUsecase interface {
 
 type UserUsecase struct {
 	ur repository.IUserRepository
+	uv validator.IUserValidator
 }
 
-func NewUserUsecase(ur repository.IUserRepository) IUserUsecase {
-	return &UserUsecase{ur}
+func NewUserUsecase(ur repository.IUserRepository, uv validator.IUserValidator) IUserUsecase {
+	return &UserUsecase{ur, uv}
 }
 
 func (u *UserUsecase) SignUp(user models.User) (models.UserResponse, error) {
+	if err := u.uv.ValidateUser(&user); err != nil {
+		return models.UserResponse{}, err
+	}
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return models.UserResponse{}, err
@@ -48,6 +54,10 @@ func (u *UserUsecase) SignUp(user models.User) (models.UserResponse, error) {
 
 func (u *UserUsecase) LogIn(user models.User) (string, error) {
 	dbUser := models.User{}
+
+	if err := u.uv.ValidateUser(&user); err != nil {
+		return "", err
+	}
 
 	if err := u.ur.GetUserByEmail(&dbUser, user.Email); err != nil {
 		return "", err

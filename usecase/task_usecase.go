@@ -3,6 +3,7 @@ package usecase
 import (
 	"go-react-todo/models"
 	"go-react-todo/repository"
+	"go-react-todo/validator"
 )
 
 type ITaskUsecase interface {
@@ -15,10 +16,11 @@ type ITaskUsecase interface {
 
 type TaskUsecase struct {
 	tr repository.ITaskRepository
+	tv validator.ITaskValidator
 }
 
-func NewTaskUsecase(tr repository.ITaskRepository) ITaskUsecase {
-	return &TaskUsecase{tr}
+func NewTaskUsecase(tr repository.ITaskRepository, tv validator.ITaskValidator) ITaskUsecase {
+	return &TaskUsecase{tr, tv}
 }
 
 func (u *TaskUsecase) GetAllTasks(userId uint) ([]models.TaskResponse, error) {
@@ -59,8 +61,11 @@ func (u *TaskUsecase) GetTaskById(userId uint, taskId uint) (models.TaskResponse
 }
 
 func (u *TaskUsecase) CreateTask(task models.Task) (models.TaskResponse, error) {
-	err := u.tr.CreateTask(&task)
-	if err != nil {
+	if err := u.tv.ValidateTask(&task); err != nil {
+		return models.TaskResponse{}, err
+	}
+
+	if err := u.tr.CreateTask(&task); err != nil {
 		return models.TaskResponse{}, err
 	}
 
@@ -75,8 +80,11 @@ func (u *TaskUsecase) CreateTask(task models.Task) (models.TaskResponse, error) 
 }
 
 func (u *TaskUsecase) UpdateTask(userId uint, task models.Task) (models.TaskResponse, error) {
-	err := u.tr.UpdateTask(&task, userId)
-	if err != nil {
+	if err := u.tv.ValidateTask(&task); err != nil {
+		return models.TaskResponse{}, err
+	}
+
+	if err := u.tr.UpdateTask(&task, userId); err != nil {
 		return models.TaskResponse{}, err
 	}
 
